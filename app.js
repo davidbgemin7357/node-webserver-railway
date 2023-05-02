@@ -62,33 +62,38 @@ run();
 
 
 // * handlebars
-// crear la carpeta back y colocar aquí los archivos: index.html, 404.html y hello.html para no generar conflictos con la renderización del hbs:
 
-app.set('view engine', 'hbs'); // por defecto handlebar buscar la carpeta views por lo cual hay que crearla
-
-// partials de handlebars:
-hbs.registerPartials(__dirname + '/views/partials')
-
-app.use(express.static('public'));
-
-let datos = {
-    nombre: 'David Baila',
-    titulo: 'Curso de Node'
+const runserver = () => {
+    // crear la carpeta back y colocar aquí los archivos: index.html, 404.html y hello.html para no generar conflictos con la renderización del hbs:
+    
+    app.set('view engine', 'hbs'); // por defecto handlebar buscar la carpeta views por lo cual hay que crearla
+    
+    // partials de handlebars:
+    hbs.registerPartials(__dirname + '/views/partials')
+    
+    app.use(express.static('public'));
+    
+    let datos = {
+        nombre: 'David Baila',
+        titulo: 'Curso de Node'
+    }
+    
+    app.get('/', (req,res) =>{
+        // renderizar handlebars:
+        res.render('home', datos);
+    });
+    
+    app.get('/generic', (req,res) => {
+        res.render('generic', datos)
+    })
+    
+    app.get('/elements', (req,res) => {
+        res.render('elements', datos)
+    })
+    
+    app.listen(port, () => {
+        console.log(`Server running successfully in port: ${port}`);
+    });
 }
 
-app.get('/', (req,res) =>{
-    // renderizar handlebars:
-    res.render('home', datos);
-});
-
-app.get('/generic', (req,res) => {
-    res.render('generic', datos)
-})
-
-app.get('/elements', (req,res) => {
-    res.render('elements', datos)
-})
-
-app.listen(port, () => {
-    console.log(`Server running successfully in port: ${port}`);
-});
+runserver();
